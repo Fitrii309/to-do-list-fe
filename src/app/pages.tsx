@@ -1,21 +1,17 @@
 'use client';
-import { useState } from 'react';
 
-type Todo = {
-  text: string;
-  completed: boolean;
-};
+import { useState } from 'react';
 
 export default function Home() {
   const [task, setTask] = useState('');
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<string[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editText, setEditText] = useState('');
 
   // Tambah task baru
   const addTask = () => {
     if (task.trim() === '') return;
-    setTodos([...todos, { text: task, completed: false }]);
+    setTodos([...todos, task]);
     setTask('');
   };
 
@@ -31,24 +27,17 @@ export default function Home() {
   // Mulai edit task
   const startEdit = (index: number) => {
     setEditIndex(index);
-    setEditText(todos[index].text);
+    setEditText(todos[index]);
   };
 
   // Simpan hasil edit
   const saveEdit = (index: number) => {
     if (editText.trim() === '') return;
     const updatedTodos = [...todos];
-    updatedTodos[index].text = editText;
+    updatedTodos[index] = editText;
     setTodos(updatedTodos);
     setEditIndex(null);
     setEditText('');
-  };
-
-  // Toggle checkbox (selesai/belum)
-  const toggleComplete = (index: number) => {
-    const updatedTodos = [...todos];
-    updatedTodos[index].completed = !updatedTodos[index].completed;
-    setTodos(updatedTodos);
   };
 
   return (
@@ -60,7 +49,7 @@ export default function Home() {
         <div className="flex mb-4 gap-2">
           <input
             type="text"
-            placeholder="..."
+            placeholder="Tulis tugas..."
             value={task}
             onChange={(e) => setTask(e.target.value)}
             className="flex-1 border px-4 py-2 rounded"
@@ -69,7 +58,7 @@ export default function Home() {
             onClick={addTask}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
-            Add
+            Tambah
           </button>
         </div>
 
@@ -93,32 +82,19 @@ export default function Home() {
                     onClick={() => saveEdit(index)}
                     className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
                   >
-                    Save
+                    Simpan
                   </button>
                   <button
                     onClick={() => setEditIndex(null)}
                     className="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600"
                   >
-                    Cancel
+                    Batal
                   </button>
                 </div>
               ) : (
-                // Mode tampil
+                // Mode tampil biasa
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={todo.completed}
-                      onChange={() => toggleComplete(index)}
-                    />
-                    <span
-                      className={
-                        todo.completed ? 'line-through text-gray-500' : ''
-                      }
-                    >
-                      {todo.text}
-                    </span>
-                  </div>
+                  <span>{todo}</span>
                   <div className="flex gap-2">
                     <button
                       onClick={() => startEdit(index)}
@@ -130,7 +106,7 @@ export default function Home() {
                       onClick={() => deleteTask(index)}
                       className="text-red-500 hover:text-red-700"
                     >
-                      Delete
+                      Hapus
                     </button>
                   </div>
                 </div>
