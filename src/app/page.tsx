@@ -60,7 +60,7 @@ export default function Home() {
         <div className="flex mb-4 gap-2">
           <input
             type="text"
-            placeholder="..."
+            placeholder="ketik bosku"
             value={task}
             onChange={(e) => setTask(e.target.value)}
             className="flex-1 border px-4 py-2 rounded"
