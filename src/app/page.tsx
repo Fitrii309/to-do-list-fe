@@ -99,7 +99,7 @@ export default function Home() {
                     onClick={() => setEditIndex(null)}
                     className="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600"
                   >
-                    Cancel
+                    ❌
                   </button>
                 </div>
               ) : (
@@ -130,7 +130,7 @@ export default function Home() {
                       onClick={() => deleteTask(index)}
                       className="text-red-500 hover:text-red-700"
                     >
-                      Delete
+                      ❌
                     </button>
                   </div>
                 </div>
