@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 type Todo = {
   text: string;
@@ -11,6 +12,21 @@ export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editText, setEditText] = useState('');
+  const API_URL = '';
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  // Fetch todos from API
+  const fetchTodos = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      setTodos(response.data.slice(0, 0)); 
+    } catch (error) {
+      console.error('Error fetching todos:', error);
+    }
+  };
 
   // Tambah task baru
   const addTask = () => {
@@ -126,7 +142,7 @@ export default function Home() {
                     </button>
                     <button
                       onClick={() => deleteTask(index)}
-                      className="text-red-400 hover:text-red-700"
+                      className="text-red-400 hover:text-red-700 text-lg font-bold"
                     >
                       X
                     </button>
