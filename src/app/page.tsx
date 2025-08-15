@@ -52,8 +52,8 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+    <main className="min-h-screen flex items-center justify-center bg-blue-100">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-xl font-bold mb-4 text-center">To-Do List</h1>
 
         {/* Form Tambah Tugas */}
@@ -67,8 +67,7 @@ export default function Home() {
           />
           <button
             onClick={addTask}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             Add
           </button>
         </div>
@@ -78,8 +77,7 @@ export default function Home() {
           {todos.map((todo, index) => (
             <li
               key={index}
-              className="bg-gray-200 px-4 py-2 rounded flex flex-col gap-2"
-            >
+              className="bg-gray-100 px-4 py-2 rounded flex flex-col gap-2">
               {editIndex === index ? (
                 // Mode edit
                 <div className="flex gap-2">
@@ -91,13 +89,13 @@ export default function Home() {
                   />
                   <button
                     onClick={() => saveEdit(index)}
-                    className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
+                    className="bg-green-400 text-white px-2 py-1 rounded hover:bg-green-500"
                   >
                     Save
                   </button>
                   <button
                     onClick={() => setEditIndex(null)}
-                    className="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600"
+                    className="bg-gray-100 px-2 py-1 rounded hover:bg-gray-200"
                   >
                     ❌
                   </button>
@@ -113,24 +111,24 @@ export default function Home() {
                     />
                     <span
                       className={
-                        todo.completed ? 'line-through text-gray-500' : ''
+                        todo.completed ? 'line-through text-gray-400' : ''
                       }
                     >
                       {todo.text}
                     </span>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-5">
                     <button
                       onClick={() => startEdit(index)}
-                      className="text-blue-500 hover:text-blue-700"
+                      className="text-blue-400 hover:text-blue-700"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => deleteTask(index)}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-red-400 hover:text-red-700"
                     >
-                      ❌
+                      X
                     </button>
                   </div>
                 </div>
