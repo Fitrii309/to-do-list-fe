@@ -12,8 +12,9 @@ export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editText, setEditText] = useState('');
-  const API_URL = '';
+  const API_URL = 'http://localhost:3000/todo'; // Ganti dengan URL API Anda
 
+  // Fetch semua todos
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -22,7 +23,7 @@ export default function Home() {
   const fetchTodos = async () => {
     try {
       const response = await axios.get(API_URL);
-      setTodos(response.data.slice(0, 0)); 
+      setTodos(response.data);
     } catch (error) {
       console.error('Error fetching todos:', error);
     }
