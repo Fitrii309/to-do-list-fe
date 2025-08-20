@@ -12,7 +12,7 @@ export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editText, setEditText] = useState('');
-  const API_URL = 'mysql://root:@localhost:3306/todo'; // Ganti dengan URL API Anda
+  const API_URL = 'http://localhost:3000/todo'; // Ganti dengan URL API Anda
 
   // Fetch semua todos
   useEffect(() => {
@@ -30,18 +30,29 @@ export default function Home() {
   };
 
   // Tambah task baru
-  const addTask = () => {
-    if (task.trim() === '') return;
-    setTodos([...todos, { text: task, completed: false }]);
-    setTask('');
+  const addTask = async () => {
+    try {
+      if (task.trim() === '') return;
+      const response = await axios.post(API_URL, { text: task, completed: false });
+      setTodos([...todos, response.data]);
+      setTask('');
+    } catch (error) {
+      console.error('Error adding task:', error);
+    }
   };
 
   // Hapus task
-  const deleteTask = (index: number) => {
-    setTodos(todos.filter((_, i) => i !== index));
-    if (editIndex === index) {
-      setEditIndex(null);
-      setEditText('');
+  const deleteTask = async (index) => {
+    const todoId = todos[index].id; // Asumsi setiap todo punya id dari backend
+    try {
+      await axios.delete(`${API_URL}/${todoId}`);
+      setTodos(todos.filter((_, i) => i !== index));
+      if (editIndex === index) {
+        setEditIndex(null);
+        setEditText('');
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error);
     }
   };
 
@@ -52,20 +63,33 @@ export default function Home() {
   };
 
   // Simpan hasil edit
-  const saveEdit = (index: number) => {
+  const saveEdit = async (index) => {
     if (editText.trim() === '') return;
-    const updatedTodos = [...todos];
-    updatedTodos[index].text = editText;
-    setTodos(updatedTodos);
-    setEditIndex(null);
-    setEditText('');
+    const todoId = todos[index].id; // Asumsi setiap todo punya id dari backend
+    try {
+      const response = await axios.put(`${API_URL}/${todoId}`, { text: editText, completed: todos[index].completed });
+      const updatedTodos = [...todos];
+      updatedTodos[index] = response.data;
+      setTodos(updatedTodos);
+      setEditIndex(null);
+      setEditText('');
+    } catch (error) {
+      console.error('Error updating task:', error);
+    }
   };
 
   // Toggle checkbox (selesai/belum)
-  const toggleComplete = (index: number) => {
-    const updatedTodos = [...todos];
-    updatedTodos[index].completed = !updatedTodos[index].completed;
-    setTodos(updatedTodos);
+    const toggleComplete = async (index) => {
+    const todoId = todos[index].id; // Asumsi setiap todo punya id dari backend
+    const updatedTodo = { ...todos[index], completed: !todos[index].completed };
+    try {
+      const response = await axios.put(`${API_URL}/${todoId}`, updatedTodo);
+      const updatedTodos = [...todos];
+      updatedTodos[index] = response.data;
+      setTodos(updatedTodos);
+    } catch (error) {
+      console.error('Error toggling task:', error);
+    }
   };
 
   return (
