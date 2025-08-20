@@ -12,7 +12,7 @@ export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editText, setEditText] = useState('');
-  const API_URL = 'http://localhost:3000/todo'; // Ganti dengan URL API Anda
+  const API_URL = 'mysql://root:@localhost:3306/todo'; // Ganti dengan URL API Anda
 
   // Fetch semua todos
   useEffect(() => {
