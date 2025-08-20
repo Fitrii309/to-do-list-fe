@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 type Todo = {
+  id?: number; // Asumsi setiap todo punya id dari backend
   text: string;
   completed: boolean;
 };
@@ -42,7 +43,7 @@ export default function Home() {
   };
 
   // Hapus task
-  const deleteTask = async (index) => {
+  const deleteTask = async (index: number) => {
     const todoId = todos[index].id; // Asumsi setiap todo punya id dari backend
     try {
       await axios.delete(`${API_URL}/${todoId}`);
@@ -63,7 +64,7 @@ export default function Home() {
   };
 
   // Simpan hasil edit
-  const saveEdit = async (index) => {
+  const saveEdit = async (index: number) => {
     if (editText.trim() === '') return;
     const todoId = todos[index].id; // Asumsi setiap todo punya id dari backend
     try {
@@ -79,7 +80,7 @@ export default function Home() {
   };
 
   // Toggle checkbox (selesai/belum)
-    const toggleComplete = async (index) => {
+    const toggleComplete = async (index: number) => {
     const todoId = todos[index].id; // Asumsi setiap todo punya id dari backend
     const updatedTodo = { ...todos[index], completed: !todos[index].completed };
     try {
